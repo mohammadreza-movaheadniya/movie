@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet } from "react-router";
+import "./App.css";
+import Header from "./component/Header";
+import Footer from "./component/Footer";
+import MobileNavigation from "./component/MobileNavigation";
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setBannerData, setImageURL } from "./store/movieoSlice";
 
-function App() {
+export default function App() {
+  let dispatch = useDispatch();
+
+  const fetchTrendingData = async () => {
+    try {
+      const response = await axios.get("/trending/all/week");
+      dispatch(setBannerData(response.data.results));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  const fetchConfiguration = async () => {
+    try {
+      const response = await axios.get("/configuration");
+      dispatch(setImageURL(response.data.images.secure_base_url + "original"));
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTrendingData();
+    fetchConfiguration();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="pb-14 lg:pb-0">
+      <Header />
+      <div className="min-h-[90vh]">
+        <Outlet />
+      </div>
+      <Footer />
+      <MobileNavigation />
+    </main>
   );
 }
-
-export default App;
