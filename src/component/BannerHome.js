@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+import { useStore } from "../store/stoore";
 
 const BannerHome = () => {
-  const bannerData = useSelector((state) => state.movieoData.bannerData);
-  const imageURL = useSelector((state) => state.movieoData.imageURL);
+  const {bannerData,imageURL}=useStore(state=>state)
+  console.log("bannerData,imageURL",bannerData,imageURL);
+  
+
   const [currrentImg, setCurrrentImg] = useState(0);
-  // console.log(bannerData);
 
   const handlePreviousBanner = () => {
     if (currrentImg < 0) {

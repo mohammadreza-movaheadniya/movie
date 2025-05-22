@@ -5,16 +5,14 @@ import Footer from "./component/Footer";
 import MobileNavigation from "./component/MobileNavigation";
 import axios from "axios";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setBannerData, setImageURL } from "./store/movieoSlice";
+import { useStore } from "./store/stoore";
 
 export default function App() {
-  let dispatch = useDispatch();
-
+  const { setBannerData, setImageURL } = useStore((state) => state);
   const fetchTrendingData = async () => {
     try {
       const response = await axios.get("/trending/all/week");
-      dispatch(setBannerData(response.data.results));
+      setBannerData(response.data.results);
     } catch (error) {
       console.log("error", error);
     }
@@ -22,7 +20,7 @@ export default function App() {
   const fetchConfiguration = async () => {
     try {
       const response = await axios.get("/configuration");
-      dispatch(setImageURL(response.data.images.secure_base_url + "original"));
+      setImageURL(response.data.images.secure_base_url + "original");
     } catch (error) {
       console.log("error", error);
     }

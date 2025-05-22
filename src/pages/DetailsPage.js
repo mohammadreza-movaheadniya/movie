@@ -1,14 +1,15 @@
 import UseFetch from "../hooks/UseFetch";
 import useFetchDetails from "../hooks/useFetchDetails";
-import { useSelector } from "react-redux";
 import moment from "moment";
 import Divider from "../component/Divider";
 import HorizontalScollCard from "../component/HorizontalScollCard";
 import { useParams } from "react-router";
+import { useStore } from "../store/stoore";
 
 const DetailsPage = () => {
   const params = useParams();
-  const imageURL = useSelector((state) => state.movieoData.imageURL);
+
+  const imageURL = useStore((state) => state.imageURL);
   const { data } = useFetchDetails(`/${params?.explore}/${params?.id}`);
   const { data: castData } = useFetchDetails(
     `/${params?.explore}/${params?.id}/credits`

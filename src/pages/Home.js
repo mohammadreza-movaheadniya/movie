@@ -1,10 +1,12 @@
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import BannerHome from "../component/BannerHome";
 import HorizontalScollCard from "../component/HorizontalScollCard";
 import UseFetch from "../hooks/UseFetch.js";
+import { useStore } from "../store/stoore.js";
 
 const Home = () => {
-  const trendingData = useSelector((state) => state.movieoData.bannerData);
+  // const trendingData = useSelector((state) => state.movieoData.bannerData);
+ const trendingData=useStore(state=>state.bannerData)
   const { data: nowPlayingData } = UseFetch("/movie/now_playing");
   const { data: topRatedData } = UseFetch("/movie/top_rated");
   const { data: popularTvShowData } = UseFetch("/tv/popular");
